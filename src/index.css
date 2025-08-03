@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+a {
+  font-weight: 500;
+  font-size: 18px;
+  color: #ffffff;
+  text-decoration: inherit;
+  padding: 0px 15px;
+}
+a:hover {
+  color: #a9a9a9;
+}
+.poster {
+  max-width: 200px;
+}
+
+p.title {
+  font-weight: bold;
+}
+p.rating.good {
+  font-weight: bold;
+  color: rgb(120, 160, 120);
+}
+p.rating.mid {
+  font-weight: bold;
+  color: rgb(255, 255, 180);
+}
+p.rating.bad {
+  font-weight: bold;
+  color: rgb(255, 80, 80);
+}
+h2.home-title {
+  font-size: 30px;
+}
+div.sidebar {
+  height: 100%;
+  width: 100%;
+}
+
+.border-with-shadow {
+  border: 2px rgb(199, 199, 199);
+  border-style: solid;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

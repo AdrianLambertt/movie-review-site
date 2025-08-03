@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+.card {
+  margin: 20px;
+  height: 400px;
+  max-height: 500px;
+  max-width: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  max-width: 200px;
+}
