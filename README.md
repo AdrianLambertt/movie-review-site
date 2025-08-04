@@ -1,6 +1,9 @@
 # movie-review-site
 
-Movie review site using the TMDB API for grabbing data. Perosnal project to increase my React/JS knowledge.
+Movie review site using the TMDB API for grabbing data. Personal project to increase my React/JS knowledge.
+
+I am familiar with tailwind/react/redux/typescript, but only for adding/editing existing screens, rather than starting from scratch.
+Thought it was worth giving myself a playground to learn in.
 
 # React + Vite
 

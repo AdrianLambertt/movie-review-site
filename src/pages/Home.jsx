@@ -4,15 +4,23 @@ import Card from "../components/Card";
 import ".././App.css";
 
 export default function Home() {
+  const [params, setParams] = useState({
+    include_adult: false,
+    include_null_first_air_dates: false,
+    language: "en-US",
+    page: 1,
+    sort_by: "popularity.desc",
+    "vote_average.gte": 1,
+  });
   const [filmData, setFilmData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [userRating, setUserRating] = useState(5);
+  const [averageUserRating, setAverageUserRating] = useState(1);
 
-  const handleUserRatingChange = (e) => {
+  const handleAverageUserRatingChange = (e) => {
     e.preventDefault();
-    setUserRating(e.target.value);
+    setParams({ ...params, "vote_average.gte": e.target.value });
   };
 
   useEffect(() => {
@@ -27,18 +35,11 @@ export default function Home() {
             accept: "application/json",
             Authorization: `Bearer ${apiKey}`,
           },
-          params: {
-            include_adult: false,
-            include_null_first_air_dates: false,
-            language: "en-US",
-            page: 1,
-            sort_by: "popularity.desc",
-          },
+          params: params,
         });
 
         setFilmData(response.data.results);
         setLoading(false);
-        console.log(response.data);
       } catch (error) {
         setError(error.message);
         setLoading(false);
@@ -50,7 +51,7 @@ export default function Home() {
     };
 
     fetchShows();
-  }, []);
+  }, [params]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -68,11 +69,11 @@ export default function Home() {
                 User Rating
                 <input
                   type="range"
-                  defaultValue={userRating}
+                  defaultValue={averageUserRating}
                   min="1"
                   max="10"
                   className="slider"
-                  onChange={handleUserRatingChange}
+                  onChange={handleAverageUserRatingChange}
                 />
               </div>
               <div>a</div>
