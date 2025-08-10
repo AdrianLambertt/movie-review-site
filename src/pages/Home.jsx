@@ -1,27 +1,12 @@
-import { useEffect, useState, React } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "../components/Card";
-import ".././App.css";
 
-export default function Home() {
-  const [params, setParams] = useState({
-    include_adult: false,
-    include_null_first_air_dates: false,
-    language: "en-US",
-    page: 1,
-    sort_by: "popularity.desc",
-    "vote_average.gte": 1,
-  });
+export default function Discover() {
+  const [sliderIndex, setSliderIndex] = useState(0);
+
   const [filmData, setFilmData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const [averageUserRating, setAverageUserRating] = useState(1);
-
-  const handleAverageUserRatingChange = (e) => {
-    e.preventDefault();
-    setParams({ ...params, "vote_average.gte": e.target.value });
-  };
 
   useEffect(() => {
     const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -35,7 +20,13 @@ export default function Home() {
             accept: "application/json",
             Authorization: `Bearer ${apiKey}`,
           },
-          params: params,
+          params: {
+            include_adult: false,
+            include_null_first_air_dates: false,
+            language: "en-US",
+            page: 1,
+            sort_by: "popularity.desc",
+          },
         });
 
         setFilmData(response.data.results);
@@ -51,47 +42,71 @@ export default function Home() {
     };
 
     fetchShows();
-  }, [params]);
+  }, []);
+
+  console.log(filmData);
+  const films = filmData.map((film) => {
+    return {
+      title: film.title || film.name,
+      overview: film.overview,
+      image: `https://image.tmdb.org/t/p/w500${film.poster_path}`,
+      backdrop: `https://image.tmdb.org/t/p/w500${film.backdrop_path}`,
+      rating: film.vote_average,
+      vote_count: film.vote_count,
+    };
+  });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
-      <div className="min-h-screen !pt-[50px] !px-[150px] flex flex-col">
-        <div className="title-homepage">
-          <h2 className="home-title w-[300px]">Popular Movies</h2>
-        </div>
-        <div className="flex flex-row">
-          <div className="basis-[350px]">
-            <div className="sidebar border-with-shadow flex flex-col">
-              <div className="flex flex-col">
-                User Rating
-                <input
-                  type="range"
-                  defaultValue={averageUserRating}
-                  min="1"
-                  max="10"
-                  className="slider"
-                  onChange={handleAverageUserRatingChange}
-                />
+    <div
+      id="screen-container"
+      className="display-flex-col items-center, justify-center, !pt-[40px] p-8 h-screen bg-red-100"
+    >
+      <h1 className="text-2x1 font-bold mb-4">Popular Films</h1>
+      {films && (
+        <div
+          style={{
+            backgroundImage: `url(${films[sliderIndex].backdrop})`,
+            opacity: 0.2,
+          }}
+          className="display-flex-col justify-align-center shadow-xl bg-[url({films[sliderIndex].backdrop})] bg-cover bg-center"
+        >
+          <div className="film-card">
+            <div className="slider-img justify-align-center m-[10px]">
+              <img className="h-[650px]" src={films[sliderIndex].image} />
+            </div>
+            <div className="film-context flex-1 display-flex-col ">
+              <h1 className="film-title">{films[sliderIndex].title}</h1>
+
+              <div className="flex justify-between">
+                <p className="wrap-break-word">
+                  {"🍿 " + films[sliderIndex].rating * 10 + "%"}
+                </p>
+                <p className="wrap-break-word">
+                  {films[sliderIndex].vote_count + " votes"}
+                </p>
               </div>
-              <div>a</div>
+
+              <p className="wrap-break-word">release_date</p>
+              <p className="wrap-break-word">{films[sliderIndex].overview}</p>
             </div>
           </div>
-          <div className="basis-3/4 flex flex-row flex-wrap">
-            {filmData.map((film, i) => (
-              <Card
-                key={i}
-                title={film.title || film.name}
-                image={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-                rating={film.vote_average}
-                date={film.release_date}
-              />
-            ))}
-          </div>
+          <a
+            className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center"
+            onClick={() => setSliderIndex(sliderIndex - 1)}
+          >
+            &lt;
+          </a>
+          <a
+            className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center"
+            onClick={() => setSliderIndex(sliderIndex + 1)}
+          >
+            &gt;
+          </a>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }

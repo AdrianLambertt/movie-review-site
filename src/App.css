@@ -12,3 +12,53 @@
   flex-direction: column;
   max-width: 200px;
 }
+
+.display-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.display-flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.justify-align-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 800px;
+}
+
+.slider-img {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex: 1;
+}
+
+.film-card {
+  margin: 20px;
+  overflow: hidden;
+  box-shadow: var(--text-shadow-md);
+  height: 100%;
+  width: 100%;
+  height: 600px;
+  max-width: 1000px;
+  display: flex;
+}
+
+.film-context {
+  padding: 40px;
+  flex: 1;
+}
+
+.film-title {
+  font-size: 25px;
+  font-weight: bold;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
