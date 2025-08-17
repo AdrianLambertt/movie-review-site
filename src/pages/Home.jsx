@@ -45,7 +45,6 @@ export default function Discover() {
     fetchShows();
   }, []);
 
-  console.log(filmData);
   const films = filmData.map((film) => {
     return {
       title: film.title || film.name,
@@ -74,13 +73,13 @@ export default function Discover() {
           <HomeTrendingCard films={films} sliderIndex={sliderIndex + 2} />
 
           <a
-            className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center"
+            className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
             onClick={() => setSliderIndex(sliderIndex - 1)}
           >
             &lt;
           </a>
           <a
-            className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center"
+            className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
             onClick={() => setSliderIndex(sliderIndex + 1)}
           >
             &gt;

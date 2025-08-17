@@ -3,7 +3,6 @@ export default function HomeTrendingCard({ films, sliderIndex }) {
     films[sliderIndex].overview.length < 200
       ? films[sliderIndex].overview
       : films[sliderIndex].overview.slice(0, 200) + "...";
-  console.log(overview);
   return (
     <div className="film-card">
       <div className="slider-img justify-align-center">

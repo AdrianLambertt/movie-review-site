@@ -34,6 +34,10 @@
   height: 800px;
 }
 
+.banner {
+  background-color: gray;
+}
+
 .background-image {
   position: absolute; /* needed for ::before to position inside */
   background-size: cover;
