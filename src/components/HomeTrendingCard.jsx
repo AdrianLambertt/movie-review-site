@@ -13,7 +13,7 @@ export default function HomeTrendingCard({ films, sliderIndex }) {
 
         <div className="flex justify-between">
           <p className="wrap-break-word">
-            {"🍿 " + films[sliderIndex].rating * 10 + "%"}
+            {"🍿 " + Math.trunc(films[sliderIndex].rating * 10) + "%"}
           </p>
           <p className="wrap-break-word">
             {films[sliderIndex].vote_count + " votes"}
