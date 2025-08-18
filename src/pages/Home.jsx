@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import HomeTrendingCard from "../components/HomeTrendingCard";
-import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export default function Discover() {
   const [sliderIndex, setSliderIndex] = useState(0);
@@ -68,10 +68,10 @@ export default function Discover() {
       <h3 className="text-3xl font-bold mb-4">Popular Films</h3>
       {films && (
         <div className="relative display-flex-row justify-align-center shadow-xl">
-          <div className="background-image" aria-hidden="true" />
           <HomeTrendingCard films={films} sliderIndex={sliderIndex} />
           <HomeTrendingCard films={films} sliderIndex={sliderIndex + 1} />
           <HomeTrendingCard films={films} sliderIndex={sliderIndex + 2} />
+          <HomeTrendingCard films={films} sliderIndex={sliderIndex + 3} />
 
           <a
             className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
@@ -151,30 +151,7 @@ export default function Discover() {
           </div>
         </div>
       </div>
-
-      <div className="footer">
-        <div className="flex flex-col gap-2">
-          <Link to="https://github.com/AdrianLambertt">
-            <div className="flex items-center justify-center gap-2 text-gray-200">
-              <img
-                src="src/assets/github-logo.png"
-                alt="gitlab icon"
-                className="h-[32px]"
-              />
-            </div>
-          </Link>
-
-          <Link to="https://www.linkedin.com/in/adrian-lambertt/">
-            <div className="flex items-center justify-center gap-2 text-gray-200">
-              <img
-                src="src/assets/linkedin.png"
-                alt="linkedin icon"
-                className="h-[32px]"
-              />
-            </div>
-          </Link>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }
