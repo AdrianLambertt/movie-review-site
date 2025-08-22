@@ -45,25 +45,19 @@
 }
 
 .film-card {
+  width: 320px;
   margin: 20px;
   overflow: hidden;
-  height: 100%;
-  width: 100%;
-  height: 500px;
-  max-width: 600px;
   display: flex;
+  flex-direction: column;
   z-index: 1;
   background-color: rgba(160, 160, 160, 0.8);
-}
-
-.film-context {
-  padding: 40px;
-  flex: 20%;
+  min-width: 0; /* very important for flex/grid children */
 }
 
 .film-title {
   font-size: 25px;
-  font-weight: bold;
+  font-weight: lighter;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
@@ -75,7 +69,7 @@
   text-align: center;
   background-color: black;
   color: white;
-  padding-bottom: 45px;
+  padding: 25px 25px;
   gap: 0.5rem;
 }
 

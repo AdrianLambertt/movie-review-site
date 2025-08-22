@@ -1,16 +1,13 @@
 export default function HomeTrendingCard({ films, sliderIndex }) {
-  const overview =
-    films[sliderIndex].overview.length < 200
-      ? films[sliderIndex].overview
-      : films[sliderIndex].overview.slice(0, 200) + "...";
   return (
     <div className="film-card">
       <div className="slider-img justify-align-center">
-        <img className="h-[500px] w-[320px]" src={films[sliderIndex].image} />
+        <img
+          className="min-h-[500px] min-w-[320px] h-[500px] w-[320px]"
+          src={films[sliderIndex].image}
+        />
       </div>
-      <div className="film-context flex-1 display-flex-col ">
-        <h1 className="film-title">{films[sliderIndex].title}</h1>
-
+      <div className="film-context display-flex-col p-[6px]">
         <div className="flex justify-between">
           <p className="wrap-break-word">
             {"🍿 " + Math.trunc(films[sliderIndex].rating * 10) + "%"}
@@ -20,8 +17,7 @@ export default function HomeTrendingCard({ films, sliderIndex }) {
           </p>
         </div>
 
-        <p className="wrap-break-word">release_date</p>
-        <p className="wrap-break-word">{overview}</p>
+        <span className="film-title truncate">{films[sliderIndex].title}</span>
       </div>
     </div>
   );

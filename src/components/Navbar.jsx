@@ -40,7 +40,7 @@ export default function Navbar() {
           type="text"
           id="filmSearch"
           placeholder="Search..."
-          className="block h-[32px] rounded-md border-2 w-[400px] border-solid text-white"
+          className="block h-[32px] bg-gray-700 rounded-md border-2 w-[400px] border-solid text-white"
         />
         <Link to="/about">About</Link>
       </div>
