@@ -95,8 +95,6 @@ export default function Discover() {
     fetchTrending();
   }, []);
 
-  console.log(filmPopularData);
-
   if (loadingPopular || loadingTrending) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -200,7 +198,7 @@ export default function Discover() {
               &lt;
             </a>
             <a
-              className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
+              className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1x"
               onClick={() => {
                 // cannot go above 17 due to only two films aviailable. (Grab 20 total)
                 return setSliderIndex(
