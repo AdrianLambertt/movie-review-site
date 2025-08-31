@@ -12,7 +12,7 @@ export default function Footer() {
         <Link to="https://github.com/AdrianLambertt">
           <div>
             <img
-              src="src/assets/github-logo.png"
+              src="/images/github-logo.png"
               alt="gitlab icon"
               className="h-[32px]"
             />
@@ -22,7 +22,7 @@ export default function Footer() {
         <Link to="https://www.linkedin.com/in/adrian-lambertt/">
           <div>
             <img
-              src="src/assets/linkedin.png"
+              src="/images/linkedin.png"
               alt="linkedin icon"
               className="h-[32px]"
             />

@@ -1,0 +1,9 @@
+node_modules
+.git
+Dockerfile
+.dockerignore
+npm-debug.log*
+yarn-error.log*
+# build outputs are created inside the container, so we can ignore local ones
+build
+dist

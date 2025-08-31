@@ -7,7 +7,7 @@ export default function Navbar() {
         <Link to="/">
           <div className="w-auto">
             <img
-              src="src/assets/react-logo.png"
+              src="/images/react-logo.png"
               alt="Logo"
               className="h-full
           object-contain"
