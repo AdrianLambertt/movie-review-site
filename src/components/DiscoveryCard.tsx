@@ -1,4 +1,11 @@
-export default function card({ title, image, rating, date }) {
+type cardProps = {
+  title: string;
+  image: string;
+  rating: number;
+  date: string;
+};
+
+export default function card({ title, image, rating, date }: cardProps) {
   return (
     <div className="card border-with-shadow">
       <div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { film, filmResponse } from "../types/film";
 import axios from "axios";
 import Card from "../components/DiscoveryCard";
 
@@ -9,13 +10,15 @@ export default function Discover() {
     language: "en-US",
     page: 1,
     sort_by: "popularity.desc",
-    "vote_average.gte": 1,
+    "vote_average.gte": "1",
   });
-  const [filmData, setFilmData] = useState([]);
+  const [filmData, setFilmData] = useState<filmResponse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | undefined>(undefined);
 
-  const handleAverageUserRatingChange = (e) => {
+  const handleAverageUserRatingChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     e.preventDefault();
     setParams({ ...params, "vote_average.gte": e.target.value });
   };
@@ -38,12 +41,14 @@ export default function Discover() {
         setFilmData(response.data.results);
         setLoading(false);
       } catch (error) {
-        setError(error.message);
-        setLoading(false);
-        console.error(
-          "Error fetching film list:",
-          error.response?.data || error.message
-        );
+        if (axios.isAxiosError(error)) {
+          setError(error.message);
+          setLoading(false);
+          console.error(
+            "Error fetching film list:",
+            error.response?.data || error.message
+          );
+        }
       }
     };
 
@@ -80,7 +85,7 @@ export default function Discover() {
             {filmData.map((film, i) => (
               <Card
                 key={i}
-                title={film.title || film.name}
+                title={film.name || film.title}
                 image={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
                 rating={film.vote_average}
                 date={film.release_date}

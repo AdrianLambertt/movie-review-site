@@ -1,4 +1,14 @@
-export default function HomeTrendingCard({ films, sliderIndex }) {
+import { film } from "../types/film";
+
+type homeTrendingCard = {
+  films: film[];
+  sliderIndex: number;
+};
+
+export default function HomeTrendingCard({
+  films,
+  sliderIndex,
+}: homeTrendingCard) {
   return (
     <div className="film-card">
       <div className="slider-img justify-align-center">

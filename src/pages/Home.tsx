@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { film, filmResponse } from "../types/film";
 import axios from "axios";
 import HomeTrendingCard from "../components/HomeTrendingCard";
 import Footer from "../components/Footer";
@@ -10,7 +11,7 @@ export default function Discover() {
   const [filmTrendingData, setFilmTrendingData] = useState([]);
   const [loadingPopular, setLoadingPopular] = useState(true);
   const [loadingTrending, setLoadingTrending] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -34,7 +35,7 @@ export default function Discover() {
         });
 
         setFilmPopularData(
-          response.data.results.map((film) => {
+          response.data.results.map((film: filmResponse) => {
             return {
               title: film.title || film.name,
               overview: film.overview,
@@ -47,12 +48,14 @@ export default function Discover() {
 
         setLoadingPopular(false);
       } catch (error) {
-        setError(error.message);
-        setLoadingPopular(false);
-        console.error(
-          "Error fetching film list:",
-          error.response?.data || error.message
-        );
+        if (axios.isAxiosError(error)) {
+          setError(error.message);
+          setLoadingPopular(false);
+          console.error(
+            "Error fetching film list:",
+            error.response?.data || error.message
+          );
+        }
       }
     };
 
@@ -69,7 +72,7 @@ export default function Discover() {
         });
 
         setFilmTrendingData(
-          response.data.results.map((film) => {
+          response.data.results.map((film: filmResponse) => {
             return {
               title: film.title || film.name,
               overview: film.overview,
@@ -82,12 +85,14 @@ export default function Discover() {
 
         setLoadingTrending(false);
       } catch (error) {
-        setError(error.message);
-        setLoadingTrending(false);
-        console.error(
-          "Error fetching film list:",
-          error.response?.data || error.message
-        );
+        if (axios.isAxiosError(error)) {
+          setError(error.message);
+          setLoadingPopular(false);
+          console.error(
+            "Error fetching film list:",
+            error.response?.data || error.message
+          );
+        }
       }
     };
 
