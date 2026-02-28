@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { film, filmResponse } from "../types/film";
+import {
+  film,
+  filmResponse,
+  movie,
+  popularMoviesResponse,
+} from "../types/film";
 import axios from "axios";
 import HomeTrendingCard from "../components/HomeTrendingCard";
 import Footer from "../components/Footer";
@@ -20,30 +25,20 @@ export default function Discover() {
       try {
         const response = await axios({
           method: "GET",
-          url: "https://api.themoviedb.org/3/discover/movie",
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-          params: {
-            include_adult: false,
-            include_null_first_air_dates: false,
-            language: "en-US",
-            page: 1,
-            sort_by: "popularity.desc",
-          },
+          url: "http://localhost:8080/api/movies/popular",
         });
 
         setFilmPopularData(
-          response.data.results.map((film: filmResponse) => {
+          response.data.map((popularResponse: popularMoviesResponse) => {
+            let movie: movie = popularResponse.movie;
             return {
-              title: film.title || film.name,
-              overview: film.overview,
-              image: `https://image.tmdb.org/t/p/w500${film.poster_path}`,
-              rating: film.vote_average,
-              vote_count: film.vote_count,
+              title: movie.title,
+              overview: movie.overview,
+              image: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
+              rating: movie.voteAverage,
+              vote_count: movie.voteCount,
             };
-          })
+          }),
         );
 
         setLoadingPopular(false);
@@ -53,7 +48,7 @@ export default function Discover() {
           setLoadingPopular(false);
           console.error(
             "Error fetching film list:",
-            error.response?.data || error.message
+            error.response?.data || error.message,
           );
         }
       }
@@ -80,7 +75,7 @@ export default function Discover() {
               rating: film.vote_average,
               vote_count: film.vote_count,
             };
-          })
+          }),
         );
 
         setLoadingTrending(false);
@@ -90,7 +85,7 @@ export default function Discover() {
           setLoadingPopular(false);
           console.error(
             "Error fetching film list:",
-            error.response?.data || error.message
+            error.response?.data || error.message,
           );
         }
       }
@@ -142,7 +137,7 @@ export default function Discover() {
               className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
               onClick={() =>
                 setSliderIndex(
-                  sliderIndex - 6 >= 0 ? sliderIndex - 6 : sliderIndex
+                  sliderIndex - 6 >= 0 ? sliderIndex - 6 : sliderIndex,
                 )
               }
             >
@@ -153,7 +148,7 @@ export default function Discover() {
               onClick={() => {
                 // cannot go above 17 due to only two films aviailable. (Grab 20 total)
                 return setSliderIndex(
-                  sliderIndex + 6 < 18 ? sliderIndex + 6 : sliderIndex
+                  sliderIndex + 6 < 18 ? sliderIndex + 6 : sliderIndex,
                 );
               }}
             >
@@ -196,7 +191,7 @@ export default function Discover() {
               className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
               onClick={() =>
                 setSliderIndex(
-                  sliderIndex - 6 >= 0 ? sliderIndex - 6 : sliderIndex
+                  sliderIndex - 6 >= 0 ? sliderIndex - 6 : sliderIndex,
                 )
               }
             >
@@ -207,7 +202,7 @@ export default function Discover() {
               onClick={() => {
                 // cannot go above 17 due to only two films aviailable. (Grab 20 total)
                 return setSliderIndex(
-                  sliderIndex + 6 < 18 ? sliderIndex + 6 : sliderIndex
+                  sliderIndex + 6 < 18 ? sliderIndex + 6 : sliderIndex,
                 );
               }}
             >
