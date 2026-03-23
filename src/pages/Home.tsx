@@ -10,7 +10,8 @@ import HomeTrendingCard from "../components/HomeTrendingCard";
 import Footer from "../components/Footer";
 
 export default function Discover() {
-  const [sliderIndex, setSliderIndex] = useState(0);
+  const [trendingSliderIndex, setTrendingSliderIndex] = useState(0);
+  const [popularSliderIndex, setPopularSliderIndex] = useState(0);
 
   const [filmPopularData, setFilmPopularData] = useState([]);
   const [filmTrendingData, setFilmTrendingData] = useState([]);
@@ -110,34 +111,36 @@ export default function Discover() {
             <div className="display-flex-row justify-center">
               <HomeTrendingCard
                 films={filmTrendingData}
-                sliderIndex={sliderIndex}
+                sliderIndex={trendingSliderIndex}
               />
               <HomeTrendingCard
                 films={filmTrendingData}
-                sliderIndex={sliderIndex + 1}
+                sliderIndex={trendingSliderIndex + 1}
               />
               <HomeTrendingCard
                 films={filmTrendingData}
-                sliderIndex={sliderIndex + 2}
+                sliderIndex={trendingSliderIndex + 2}
               />
               <HomeTrendingCard
                 films={filmTrendingData}
-                sliderIndex={sliderIndex + 3}
+                sliderIndex={trendingSliderIndex + 3}
               />
               <HomeTrendingCard
                 films={filmTrendingData}
-                sliderIndex={sliderIndex + 4}
+                sliderIndex={trendingSliderIndex + 4}
               />
               <HomeTrendingCard
                 films={filmTrendingData}
-                sliderIndex={sliderIndex + 5}
+                sliderIndex={trendingSliderIndex + 5}
               />
             </div>
             <a
               className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
               onClick={() =>
-                setSliderIndex(
-                  sliderIndex - 6 >= 0 ? sliderIndex - 6 : sliderIndex,
+                setTrendingSliderIndex(
+                  trendingSliderIndex - 6 >= 0
+                    ? trendingSliderIndex - 6
+                    : trendingSliderIndex,
                 )
               }
             >
@@ -147,8 +150,10 @@ export default function Discover() {
               className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
               onClick={() => {
                 // cannot go above 17 due to only two films aviailable. (Grab 20 total)
-                return setSliderIndex(
-                  sliderIndex + 6 < 18 ? sliderIndex + 6 : sliderIndex,
+                return setTrendingSliderIndex(
+                  trendingSliderIndex + 6 < 18
+                    ? trendingSliderIndex + 6
+                    : trendingSliderIndex,
                 );
               }}
             >
@@ -164,34 +169,36 @@ export default function Discover() {
             <div className="display-flex-row justify-center">
               <HomeTrendingCard
                 films={filmPopularData}
-                sliderIndex={sliderIndex}
+                sliderIndex={popularSliderIndex}
               />
               <HomeTrendingCard
                 films={filmPopularData}
-                sliderIndex={sliderIndex + 1}
+                sliderIndex={popularSliderIndex + 1}
               />
               <HomeTrendingCard
                 films={filmPopularData}
-                sliderIndex={sliderIndex + 2}
+                sliderIndex={popularSliderIndex + 2}
               />
               <HomeTrendingCard
                 films={filmPopularData}
-                sliderIndex={sliderIndex + 3}
+                sliderIndex={popularSliderIndex + 3}
               />
               <HomeTrendingCard
                 films={filmPopularData}
-                sliderIndex={sliderIndex + 4}
+                sliderIndex={popularSliderIndex + 4}
               />
               <HomeTrendingCard
                 films={filmPopularData}
-                sliderIndex={sliderIndex + 5}
+                sliderIndex={popularSliderIndex + 5}
               />
             </div>
             <a
               className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
               onClick={() =>
-                setSliderIndex(
-                  sliderIndex - 6 >= 0 ? sliderIndex - 6 : sliderIndex,
+                setPopularSliderIndex(
+                  popularSliderIndex - 6 >= 0
+                    ? popularSliderIndex - 6
+                    : popularSliderIndex,
                 )
               }
             >
@@ -201,8 +208,10 @@ export default function Discover() {
               className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1x"
               onClick={() => {
                 // cannot go above 17 due to only two films aviailable. (Grab 20 total)
-                return setSliderIndex(
-                  sliderIndex + 6 < 18 ? sliderIndex + 6 : sliderIndex,
+                return setPopularSliderIndex(
+                  popularSliderIndex + 6 < 18
+                    ? popularSliderIndex + 6
+                    : popularSliderIndex,
                 );
               }}
             >
