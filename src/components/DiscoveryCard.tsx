@@ -18,10 +18,10 @@ export default function card({ title, image, rating, date }: cardProps) {
 
       <p
         className={
-          "rating " + (rating > 7 ? "good" : rating > 5 ? "mid" : "bad")
+          'rating ' + (rating > 7 ? 'good' : rating > 5 ? 'mid' : 'bad')
         }
       >
-        {"🍿 " + Math.round(rating) * 10 + "%"}
+        {'🍿 ' + Math.round(rating) * 10 + '%'}
       </p>
       <p className="title">{title}</p>
 

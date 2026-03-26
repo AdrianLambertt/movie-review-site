@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
-import { film, filmResponse } from "../types/film";
-import axios from "axios";
-import Card from "../components/DiscoveryCard";
+import { useEffect, useState } from 'react';
+import { FilmResponse } from '../types/film';
+import axios from 'axios';
+import Card from '../components/DiscoveryCard';
 
 export default function Discover() {
   const [params, setParams] = useState({
     include_adult: false,
     include_null_first_air_dates: false,
-    language: "en-US",
+    language: 'en-US',
     page: 1,
-    sort_by: "popularity.desc",
-    "vote_average.gte": "1",
+    sort_by: 'popularity.desc',
+    'vote_average.gte': '1',
   });
-  const [filmData, setFilmData] = useState<filmResponse[]>([]);
+  const [filmData, setFilmData] = useState<FilmResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
   const handleAverageUserRatingChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
-    setParams({ ...params, "vote_average.gte": e.target.value });
+    setParams({ ...params, 'vote_average.gte': e.target.value });
   };
 
   useEffect(() => {
@@ -29,10 +29,10 @@ export default function Discover() {
     const fetchShows = async () => {
       try {
         const response = await axios({
-          method: "GET",
-          url: "https://api.themoviedb.org/3/discover/movie",
+          method: 'GET',
+          url: 'https://api.themoviedb.org/3/discover/movie',
           headers: {
-            accept: "application/json",
+            accept: 'application/json',
             Authorization: `Bearer ${apiKey}`,
           },
           params: params,
@@ -45,8 +45,8 @@ export default function Discover() {
           setError(error.message);
           setLoading(false);
           console.error(
-            "Error fetching film list:",
-            error.response?.data || error.message
+            'Error fetching film list:',
+            error.response?.data || error.message,
           );
         }
       }
@@ -71,7 +71,7 @@ export default function Discover() {
                 User Rating
                 <input
                   type="range"
-                  defaultValue={params["vote_average.gte"]}
+                  defaultValue={params['vote_average.gte']}
                   min="1"
                   max="10"
                   className="slider"

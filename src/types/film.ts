@@ -1,19 +1,21 @@
-export type film = {
+export type Film = {
   id: number;
   title: string;
   overview: string;
   voteAverage: number;
   vote_count: number;
+  image: string;
+  rating: number;
 };
 
-export interface filmResponse extends film {
+export interface FilmResponse extends Film {
   name: string;
   vote_average: number;
   poster_path: string;
   release_date: string;
 }
 
-export type movie = {
+export type Movie = {
   id: number;
   title: string;
   overview: string;
@@ -23,7 +25,7 @@ export type movie = {
   voteAverage: number;
 };
 
-export interface popularMoviesResponse {
+export interface PopularMoviesResponse {
   id: number;
-  movie: movie;
+  movie: Movie;
 }

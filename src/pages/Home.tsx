@@ -1,18 +1,10 @@
-import { useEffect, useState } from "react";
-import {
-  film,
-  filmResponse,
-  movie,
-  popularMoviesResponse,
-} from "../types/film";
-import axios from "axios";
-import HomeTrendingCard from "../components/HomeTrendingCard";
-import Footer from "../components/Footer";
+import { useEffect, useState } from 'react';
+import { FilmResponse, PopularMoviesResponse } from '../types/film';
+import axios from 'axios';
+import Slider from '../components/Slider';
+import Footer from '../components/Footer';
 
 export default function Discover() {
-  const [trendingSliderIndex, setTrendingSliderIndex] = useState(0);
-  const [popularSliderIndex, setPopularSliderIndex] = useState(0);
-
   const [filmPopularData, setFilmPopularData] = useState([]);
   const [filmTrendingData, setFilmTrendingData] = useState([]);
   const [loadingPopular, setLoadingPopular] = useState(true);
@@ -24,20 +16,18 @@ export default function Discover() {
 
     const fetchPopular = async () => {
       try {
-        const response = await axios({
-          method: "GET",
-          url: "http://localhost:8080/api/movies/popular",
-        });
+        const response = await axios.get(
+          'http://localhost:8080/api/movies/popular',
+        );
 
         setFilmPopularData(
-          response.data.map((popularResponse: popularMoviesResponse) => {
-            let movie: movie = popularResponse.movie;
+          response.data.map((popularResponse: PopularMoviesResponse) => {
             return {
-              title: movie.title,
-              overview: movie.overview,
-              image: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
-              rating: movie.voteAverage,
-              vote_count: movie.voteCount,
+              title: popularResponse.movie.title,
+              overview: popularResponse.movie.overview,
+              image: `https://image.tmdb.org/t/p/w500${popularResponse.movie.posterPath}`,
+              rating: popularResponse.movie.voteAverage,
+              vote_count: popularResponse.movie.voteCount,
             };
           }),
         );
@@ -48,7 +38,7 @@ export default function Discover() {
           setError(error.message);
           setLoadingPopular(false);
           console.error(
-            "Error fetching film list:",
+            'Error fetching film list:',
             error.response?.data || error.message,
           );
         }
@@ -58,17 +48,17 @@ export default function Discover() {
     const fetchTrending = async () => {
       try {
         const response = await axios({
-          method: "GET",
-          url: "https://api.themoviedb.org/3/trending/movie/week",
+          method: 'GET',
+          url: 'https://api.themoviedb.org/3/trending/movie/week',
           headers: {
-            accept: "application/json",
+            accept: 'application/json',
             Authorization: `Bearer ${apiKey}`,
           },
-          params: { language: "en-US" },
+          params: { language: 'en-US' },
         });
 
         setFilmTrendingData(
-          response.data.results.map((film: filmResponse) => {
+          response.data.results.map((film: FilmResponse) => {
             return {
               title: film.title || film.name,
               overview: film.overview,
@@ -85,7 +75,7 @@ export default function Discover() {
           setError(error.message);
           setLoadingPopular(false);
           console.error(
-            "Error fetching film list:",
+            'Error fetching film list:',
             error.response?.data || error.message,
           );
         }
@@ -105,120 +95,10 @@ export default function Discover() {
       className="display-flex-col items-center, justify-center, pb-[0px] h-screen bg-gray-700"
     >
       {filmTrendingData && (
-        <div className="bg-gray-900 py-12">
-          <h3 className="text-3xl font-bold mb-4 text-white">Trending Films</h3>
-          <div className="relative display-flex-row justify-align-center">
-            <div className="display-flex-row justify-center">
-              <HomeTrendingCard
-                films={filmTrendingData}
-                sliderIndex={trendingSliderIndex}
-              />
-              <HomeTrendingCard
-                films={filmTrendingData}
-                sliderIndex={trendingSliderIndex + 1}
-              />
-              <HomeTrendingCard
-                films={filmTrendingData}
-                sliderIndex={trendingSliderIndex + 2}
-              />
-              <HomeTrendingCard
-                films={filmTrendingData}
-                sliderIndex={trendingSliderIndex + 3}
-              />
-              <HomeTrendingCard
-                films={filmTrendingData}
-                sliderIndex={trendingSliderIndex + 4}
-              />
-              <HomeTrendingCard
-                films={filmTrendingData}
-                sliderIndex={trendingSliderIndex + 5}
-              />
-            </div>
-            <a
-              className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
-              onClick={() =>
-                setTrendingSliderIndex(
-                  trendingSliderIndex - 6 >= 0
-                    ? trendingSliderIndex - 6
-                    : trendingSliderIndex,
-                )
-              }
-            >
-              &lt;
-            </a>
-            <a
-              className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
-              onClick={() => {
-                // cannot go above 17 due to only two films aviailable. (Grab 20 total)
-                return setTrendingSliderIndex(
-                  trendingSliderIndex + 6 < 18
-                    ? trendingSliderIndex + 6
-                    : trendingSliderIndex,
-                );
-              }}
-            >
-              &gt;
-            </a>
-          </div>
-        </div>
+        <Slider filmList={filmTrendingData} title="Trending Films" />
       )}
       {filmPopularData && (
-        <div className="bg-gray-900 py-12">
-          <h3 className="text-3xl font-bold mb-4 text-white">Popular Films</h3>
-          <div className="relative display-flex-row justify-align-center ">
-            <div className="display-flex-row justify-center">
-              <HomeTrendingCard
-                films={filmPopularData}
-                sliderIndex={popularSliderIndex}
-              />
-              <HomeTrendingCard
-                films={filmPopularData}
-                sliderIndex={popularSliderIndex + 1}
-              />
-              <HomeTrendingCard
-                films={filmPopularData}
-                sliderIndex={popularSliderIndex + 2}
-              />
-              <HomeTrendingCard
-                films={filmPopularData}
-                sliderIndex={popularSliderIndex + 3}
-              />
-              <HomeTrendingCard
-                films={filmPopularData}
-                sliderIndex={popularSliderIndex + 4}
-              />
-              <HomeTrendingCard
-                films={filmPopularData}
-                sliderIndex={popularSliderIndex + 5}
-              />
-            </div>
-            <a
-              className="btn-prev absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1"
-              onClick={() =>
-                setPopularSliderIndex(
-                  popularSliderIndex - 6 >= 0
-                    ? popularSliderIndex - 6
-                    : popularSliderIndex,
-                )
-              }
-            >
-              &lt;
-            </a>
-            <a
-              className="btn-next absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center z-1x"
-              onClick={() => {
-                // cannot go above 17 due to only two films aviailable. (Grab 20 total)
-                return setPopularSliderIndex(
-                  popularSliderIndex + 6 < 18
-                    ? popularSliderIndex + 6
-                    : popularSliderIndex,
-                );
-              }}
-            >
-              &gt;
-            </a>
-          </div>
-        </div>
+        <Slider filmList={filmPopularData} title="Popular Films" />
       )}
 
       {/* Sidescroll 2 - most reviewed films? Most reviews this week? Work out second scrollbar */}
