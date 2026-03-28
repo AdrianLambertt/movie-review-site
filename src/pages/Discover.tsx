@@ -12,7 +12,7 @@ export default function Discover() {
     sort_by: 'popularity.desc',
     'vote_average.gte': '1',
   });
-  const [filmData, setFilmData] = useState<FilmResponse[]>([]);
+  const [movieData, setMovieData] = useState<FilmResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -38,14 +38,14 @@ export default function Discover() {
           params: params,
         });
 
-        setFilmData(response.data.results);
+        setMovieData(response.data.results);
         setLoading(false);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           setError(error.message);
           setLoading(false);
           console.error(
-            'Error fetching film list:',
+            'Error fetching movie list:',
             error.response?.data || error.message,
           );
         }
@@ -82,13 +82,13 @@ export default function Discover() {
             </div>
           </div>
           <div className="basis-3/4 flex flex-row flex-wrap">
-            {filmData.map((film, i) => (
+            {movieData.map((movie, i) => (
               <Card
                 key={i}
-                title={film.name || film.title}
-                image={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-                rating={film.vote_average}
-                date={film.release_date}
+                title={movie.name || movie.title}
+                image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                rating={movie.vote_average}
+                date={movie.release_date}
               />
             ))}
           </div>

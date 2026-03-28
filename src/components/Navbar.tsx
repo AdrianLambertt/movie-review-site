@@ -15,7 +15,7 @@ export default function Navbar() {
           </div>
         </Link>
         <select
-          id="filmRating"
+          id="movieRating"
           className="h-[32px] block rounded-md border-2 border-solid text-white"
         >
           <option value="rating">Rating</option>
@@ -26,7 +26,7 @@ export default function Navbar() {
           <option value="fiveStar">Five Star</option>
         </select>
         <select
-          id="filmGenre"
+          id="movieGenre"
           className="block h-[32px] rounded-md border-2 border-solid text-white"
         >
           <option value="genre">Genre</option>
@@ -38,7 +38,7 @@ export default function Navbar() {
         </select>
         <input
           type="text"
-          id="filmSearch"
+          id="movieSearch"
           placeholder="Search..."
           className="block h-[32px] bg-gray-700 rounded-md border-2 w-[400px] border-solid text-white"
         />

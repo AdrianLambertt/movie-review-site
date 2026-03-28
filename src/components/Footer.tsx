@@ -5,7 +5,7 @@ export default function Footer() {
     <div className="footer">
       <p className="footer-content">
         This project was possible due to the TMDB API, giving me up-to date
-        ratings and film data.
+        ratings and movie data.
       </p>
       <p className="footer-content"> Created by Adrian Lambert 2025</p>
       <div className="flex justify-center gap-2">

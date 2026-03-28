@@ -6,17 +6,20 @@ type SliderProps = { movieList: Movie[]; title: string };
 
 export default function Slider({ movieList, title }: SliderProps) {
   const ITEMS_PER_PAGE = 6;
-  const [FilmIndex, setFilmIndex] = useState(0);
-  const visibleFilms = movieList.slice(FilmIndex, FilmIndex + ITEMS_PER_PAGE);
+  const [MovieIndex, setMovieIndex] = useState(0);
+  const visibleMovies = movieList.slice(
+    MovieIndex,
+    MovieIndex + ITEMS_PER_PAGE,
+  );
 
   const handleNext = () => {
-    setFilmIndex((prev) =>
+    setMovieIndex((prev) =>
       Math.min(prev + ITEMS_PER_PAGE, movieList.length - ITEMS_PER_PAGE),
     );
   };
 
   const handlePrev = () => {
-    setFilmIndex((prev) => Math.max(prev - ITEMS_PER_PAGE, 0));
+    setMovieIndex((prev) => Math.max(prev - ITEMS_PER_PAGE, 0));
   };
 
   return (
@@ -24,7 +27,7 @@ export default function Slider({ movieList, title }: SliderProps) {
       <h3 className="text-3xl font-bold mb-4 text-white">{title}</h3>
       <div className="relative display-flex-row justify-align-center">
         <div className="display-flex-row justify-center">
-          {visibleFilms.map((movie, index) => (
+          {visibleMovies.map((movie, index) => (
             <HomeTrendingCard key={index} movie={movie} />
           ))}
         </div>

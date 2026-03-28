@@ -5,8 +5,8 @@ import Slider from '../components/Slider';
 import Footer from '../components/Footer';
 
 export default function Discover() {
-  const [filmPopularData, setFilmPopularData] = useState<Movie[]>([]);
-  const [filmTrendingData, setFilmTrendingData] = useState<Movie[]>([]);
+  const [moviePopularData, setMoviePopularData] = useState<Movie[]>([]);
+  const [movieTrendingData, setMovieTrendingData] = useState<Movie[]>([]);
   const [loadingPopular, setLoadingPopular] = useState(true);
   const [loadingTrending, setLoadingTrending] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -19,12 +19,13 @@ export default function Discover() {
         const response = await axios.get<Movie[]>(
           'http://localhost:8080/api/movies/popular',
         );
-        setFilmPopularData(response.data.map(apiToMovie));
+        setMoviePopularData(response.data.map(apiToMovie));
       } catch (error) {
+        console.log(error);
         const message = axios.isAxiosError(error)
           ? error.response?.data || error.message
           : 'An unexpected error occurred';
-        console.error('Error fetching film list:', message);
+        console.error('Error fetching movie list:', message);
         setError(message);
       } finally {
         setLoadingPopular(false);
@@ -33,23 +34,18 @@ export default function Discover() {
 
     const fetchTrending = async () => {
       try {
-        const response = await axios.get(
-          'https://api.themoviedb.org/3/trending/movie/week',
-          {
-            headers: {
-              accept: 'application/json',
-              Authorization: `Bearer ${apiKey}`,
-            },
-            params: { language: 'en-US' },
-          },
+        const response = await axios.get<Movie[]>(
+          'http://localhost:8080/api/movies/trending',
         );
 
-        setFilmTrendingData(response.data.map(apiToMovie));
+        console.log(response.data);
+        setMovieTrendingData(response.data.map(apiToMovie));
       } catch (error) {
+        console.log(error);
         const message = axios.isAxiosError(error)
           ? error.response?.data || error.message
           : 'An unexpected error occurred';
-        console.error('Error fetching film list:', message);
+        console.error('Error fetching movie list:', message);
         setError(message);
       } finally {
         setLoadingTrending(false);
@@ -68,15 +64,13 @@ export default function Discover() {
       id="screen-container"
       className="display-flex-col items-center, justify-center, pb-[0px] h-screen bg-gray-700"
     >
-      {filmTrendingData && (
-        <Slider movieList={filmTrendingData} title="Trending Films" />
+      {movieTrendingData && (
+        <Slider movieList={movieTrendingData} title="Trending Movies" />
       )}
-      {filmPopularData && (
-        <Slider movieList={filmPopularData} title="Popular Films" />
+      {moviePopularData && (
+        <Slider movieList={moviePopularData} title="Popular Movies" />
       )}
 
-      {/* Sidescroll 2 - most reviewed films? Most reviews this week? Work out second scrollbar */}
-      {/* (<h3 className="text-3xl font-bold mb-4">Popular Films</h3>) */}
       <div className="m-auto p-12">
         <h3 className="text-3xl font-bold mb-[50px] justify-self-center">
           Review Leaderboard
@@ -137,7 +131,7 @@ export default function Discover() {
   );
 }
 
-const apiToMovie = (movie: Movie) => ({
+const apiToMovie = (movie: Movie): Movie => ({
   ...movie,
   posterPath: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
 });

@@ -11,7 +11,7 @@ export default function card({ title, image, rating, date }: cardProps) {
       <div>
         <img
           src={image}
-          alt="film-photo"
+          alt="movie-photo"
           className="poster w-full h-222 object-cover rounded"
         />
       </div>
