@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { FilmResponse, PopularMoviesResponse } from '../types/film';
+import { Movie } from '../types/movie';
 import axios from 'axios';
 import Slider from '../components/Slider';
 import Footer from '../components/Footer';
 
 export default function Discover() {
-  const [filmPopularData, setFilmPopularData] = useState([]);
-  const [filmTrendingData, setFilmTrendingData] = useState([]);
+  const [filmPopularData, setFilmPopularData] = useState<Movie[]>([]);
+  const [filmTrendingData, setFilmTrendingData] = useState<Movie[]>([]);
   const [loadingPopular, setLoadingPopular] = useState(true);
   const [loadingTrending, setLoadingTrending] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -16,69 +16,43 @@ export default function Discover() {
 
     const fetchPopular = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get<Movie[]>(
           'http://localhost:8080/api/movies/popular',
         );
-
-        setFilmPopularData(
-          response.data.map((popularResponse: PopularMoviesResponse) => {
-            return {
-              title: popularResponse.movie.title,
-              overview: popularResponse.movie.overview,
-              image: `https://image.tmdb.org/t/p/w500${popularResponse.movie.posterPath}`,
-              rating: popularResponse.movie.voteAverage,
-              vote_count: popularResponse.movie.voteCount,
-            };
-          }),
-        );
-
-        setLoadingPopular(false);
+        setFilmPopularData(response.data.map(apiToMovie));
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          setError(error.message);
-          setLoadingPopular(false);
-          console.error(
-            'Error fetching film list:',
-            error.response?.data || error.message,
-          );
-        }
+        const message = axios.isAxiosError(error)
+          ? error.response?.data || error.message
+          : 'An unexpected error occurred';
+        console.error('Error fetching film list:', message);
+        setError(message);
+      } finally {
+        setLoadingPopular(false);
       }
     };
 
     const fetchTrending = async () => {
       try {
-        const response = await axios({
-          method: 'GET',
-          url: 'https://api.themoviedb.org/3/trending/movie/week',
-          headers: {
-            accept: 'application/json',
-            Authorization: `Bearer ${apiKey}`,
+        const response = await axios.get(
+          'https://api.themoviedb.org/3/trending/movie/week',
+          {
+            headers: {
+              accept: 'application/json',
+              Authorization: `Bearer ${apiKey}`,
+            },
+            params: { language: 'en-US' },
           },
-          params: { language: 'en-US' },
-        });
-
-        setFilmTrendingData(
-          response.data.results.map((film: FilmResponse) => {
-            return {
-              title: film.title || film.name,
-              overview: film.overview,
-              image: `https://image.tmdb.org/t/p/w500${film.poster_path}`,
-              rating: film.vote_average,
-              vote_count: film.vote_count,
-            };
-          }),
         );
 
-        setLoadingTrending(false);
+        setFilmTrendingData(response.data.map(apiToMovie));
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          setError(error.message);
-          setLoadingPopular(false);
-          console.error(
-            'Error fetching film list:',
-            error.response?.data || error.message,
-          );
-        }
+        const message = axios.isAxiosError(error)
+          ? error.response?.data || error.message
+          : 'An unexpected error occurred';
+        console.error('Error fetching film list:', message);
+        setError(message);
+      } finally {
+        setLoadingTrending(false);
       }
     };
 
@@ -95,10 +69,10 @@ export default function Discover() {
       className="display-flex-col items-center, justify-center, pb-[0px] h-screen bg-gray-700"
     >
       {filmTrendingData && (
-        <Slider filmList={filmTrendingData} title="Trending Films" />
+        <Slider movieList={filmTrendingData} title="Trending Films" />
       )}
       {filmPopularData && (
-        <Slider filmList={filmPopularData} title="Popular Films" />
+        <Slider movieList={filmPopularData} title="Popular Films" />
       )}
 
       {/* Sidescroll 2 - most reviewed films? Most reviews this week? Work out second scrollbar */}
@@ -162,3 +136,8 @@ export default function Discover() {
     </div>
   );
 }
+
+const apiToMovie = (movie: Movie) => ({
+  ...movie,
+  posterPath: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
+});

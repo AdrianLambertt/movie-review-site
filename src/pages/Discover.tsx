@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FilmResponse } from '../types/film';
+import { FilmResponse } from '../types/movie';
 import axios from 'axios';
 import Card from '../components/DiscoveryCard';
 

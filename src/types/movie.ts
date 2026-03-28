@@ -3,7 +3,7 @@ export type Film = {
   title: string;
   overview: string;
   voteAverage: number;
-  vote_count: number;
+  voteCount: number;
   image: string;
   rating: number;
 };
@@ -24,8 +24,3 @@ export type Movie = {
   voteCount: number;
   voteAverage: number;
 };
-
-export interface PopularMoviesResponse {
-  id: number;
-  movie: Movie;
-}
