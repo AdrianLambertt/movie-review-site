@@ -21,7 +21,6 @@ export default function Discover() {
         );
         setMoviePopularData(response.data.map(apiToMovie));
       } catch (error) {
-        console.log(error);
         const message = axios.isAxiosError(error)
           ? error.response?.data || error.message
           : 'An unexpected error occurred';
@@ -37,11 +36,8 @@ export default function Discover() {
         const response = await axios.get<Movie[]>(
           'http://localhost:8080/api/movies/trending',
         );
-
-        console.log(response.data);
         setMovieTrendingData(response.data.map(apiToMovie));
       } catch (error) {
-        console.log(error);
         const message = axios.isAxiosError(error)
           ? error.response?.data || error.message
           : 'An unexpected error occurred';
