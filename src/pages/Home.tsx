@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Movie } from '../types/movie';
 import axios from 'axios';
 import Slider from '../components/Slider';
+import ReviewLeaderboard from '../components/ReviewLeaderboard';
 import Footer from '../components/Footer';
 
 export default function Discover() {
@@ -12,8 +13,6 @@ export default function Discover() {
   const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-
     const fetchPopular = async () => {
       try {
         const response = await axios.get<Movie[]>(
@@ -67,61 +66,7 @@ export default function Discover() {
         <Slider movieList={moviePopularData} title="Popular Movies" />
       )}
 
-      <div className="m-auto p-12">
-        <h3 className="text-3xl font-bold mb-[50px] justify-self-center">
-          Review Leaderboard
-        </h3>
-        <div className="grid grid-cols-2 gap-2 gap-x-[6rem] justify-center items-center">
-          <div className="flex items-center gap-2">
-            <img
-              src="/images/no-profile-picture.png"
-              alt="profile picture"
-              className="h-full"
-            />
-            Fake User
-          </div>
-          <div className="flex items-center gap-2">
-            <img
-              src="/images/no-profile-picture.png"
-              alt="profile picture"
-              className="h-full"
-            />
-            Fake User
-          </div>
-          <div className="flex items-center gap-2">
-            <img
-              src="/images/no-profile-picture.png"
-              alt="profile picture"
-              className="h-full"
-            />
-            Fake User
-          </div>
-          <div className="flex items-center gap-2">
-            <img
-              src="/images/no-profile-picture.png"
-              alt="profile picture"
-              className="h-full"
-            />
-            Fake User
-          </div>
-          <div className="flex items-center gap-2">
-            <img
-              src="/images/no-profile-picture.png"
-              alt="profile picture"
-              className="h-full"
-            />
-            Fake User
-          </div>
-          <div className="flex items-center gap-2">
-            <img
-              src="/images/no-profile-picture.png"
-              alt="profile picture"
-              className="h-full"
-            />
-            Fake User
-          </div>
-        </div>
-      </div>
+      <ReviewLeaderboard />
       <Footer />
     </div>
   );
