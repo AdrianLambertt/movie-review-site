@@ -1,48 +1,83 @@
 import HomeTrendingCard from './HomeTrendingCard';
 import { Movie } from '../types/movie';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 type SliderProps = { movieList: Movie[]; title: string };
 
 export default function Slider({ movieList, title }: SliderProps) {
-  const ITEMS_PER_PAGE = 6;
-  const [movieIndex, setMovieIndex] = useState(0);
-  const visibleMovies = movieList.slice(
-    movieIndex,
-    movieIndex + ITEMS_PER_PAGE,
-  );
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  const handleNext = () => {
-    setMovieIndex((prev) =>
-      Math.min(prev + ITEMS_PER_PAGE, movieList.length - ITEMS_PER_PAGE),
-    );
+  const updateScrollState = () => {
+    const el = rowRef.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 0);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
   };
 
-  const handlePrev = () => {
-    setMovieIndex((prev) => Math.max(prev - ITEMS_PER_PAGE, 0));
+  useEffect(() => {
+    updateScrollState();
+  }, [movieList]);
+
+  const scroll = (direction: 'left' | 'right') => {
+    const el = rowRef.current;
+    if (!el) return;
+    const amount = el.clientWidth * 0.85;
+    el.scrollBy({
+      left: direction === 'right' ? amount : -amount,
+      behavior: 'smooth',
+    });
   };
 
   return (
-    <div className="w-full bg-gray-900 py-12">
-      <h3 className="text-3xl font-bold mb-4 text-white">{title}</h3>
-      <div className="relative flex flex-row justify-center items-center">
-        <div className="flex flex-row justify-center">
-          {visibleMovies.map((movie, index) => (
-            <HomeTrendingCard key={index} movie={movie} />
+    <div
+      className="w-full bg-gray-900 py-6"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <h3 className="text-3xl font-bold mb-4 text-white px-12">{title}</h3>
+
+      <div className="relative">
+        {/* Left arrow */}
+        <button
+          onClick={() => scroll('left')}
+          className={`
+            absolute left-0 top-0 z-20 h-full w-12 bg-black/50 text-white text-6xl
+            flex items-center justify-center transition-opacity duration-200
+            ${hovered && !atStart ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+          `}
+        >
+          &#8249;
+        </button>
+
+        <div
+          ref={rowRef}
+          onScroll={updateScrollState}
+          className="flex flex-row gap-1 overflow-x-scroll scroll-smooth px-12"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          {movieList.map((movie, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 transition-transform duration-200 hover:scale-105 hover:z-10"
+            >
+              <HomeTrendingCard movie={movie} />
+            </div>
           ))}
         </div>
 
+        {/* Right arrow */}
         <button
-          className="absolute left-5 sm:left-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center"
-          onClick={handlePrev}
+          onClick={() => scroll('right')}
+          className={`
+            absolute right-0 top-0 z-20 h-full w-12 bg-black/50 text-white text-6xl
+            flex items-center justify-center transition-opacity duration-200
+            ${hovered && !atEnd ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+          `}
         >
-          &lt;
-        </button>
-        <button
-          className="absolute right-5 sm:right-10 bg-white p-2 rounded-full w-10 h-10 flex justify-center items-center"
-          onClick={handleNext}
-        >
-          &gt;
+          &#8250;
         </button>
       </div>
     </div>
