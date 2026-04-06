@@ -6,10 +6,10 @@ type SliderProps = { movieList: Movie[]; title: string };
 
 export default function Slider({ movieList, title }: SliderProps) {
   const ITEMS_PER_PAGE = 6;
-  const [MovieIndex, setMovieIndex] = useState(0);
+  const [movieIndex, setMovieIndex] = useState(0);
   const visibleMovies = movieList.slice(
-    MovieIndex,
-    MovieIndex + ITEMS_PER_PAGE,
+    movieIndex,
+    movieIndex + ITEMS_PER_PAGE,
   );
 
   const handleNext = () => {
@@ -23,10 +23,10 @@ export default function Slider({ movieList, title }: SliderProps) {
   };
 
   return (
-    <div className="bg-gray-900 py-12">
+    <div className="w-full bg-gray-900 py-12">
       <h3 className="text-3xl font-bold mb-4 text-white">{title}</h3>
-      <div className="relative display-flex-row justify-align-center">
-        <div className="display-flex-row justify-center">
+      <div className="relative flex flex-row justify-center items-center">
+        <div className="flex flex-row justify-center">
           {visibleMovies.map((movie, index) => (
             <HomeTrendingCard key={index} movie={movie} />
           ))}

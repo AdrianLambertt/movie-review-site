@@ -15,6 +15,11 @@ export interface FilmResponse extends Film {
   release_date: string;
 }
 
+export type Genre = {
+  id: number;
+  name: string;
+};
+
 export type Movie = {
   id: number;
   title: string;
@@ -23,4 +28,25 @@ export type Movie = {
   posterPath: string;
   voteCount: number;
   voteAverage: number;
+  version: number;
+  runtime: number;
+  genres: Genre[];
+};
+
+export interface TMDBVideoResponse {
+  id: number;
+  results: TMDBVideo[];
+}
+
+export type TMDBVideo = {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
 };

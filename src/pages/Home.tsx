@@ -5,7 +5,8 @@ import Slider from '../components/Slider';
 import ReviewLeaderboard from '../components/ReviewLeaderboard';
 import Footer from '../components/Footer';
 
-export default function Discover() {
+export default function Home() {
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
   const [moviePopularData, setMoviePopularData] = useState<Movie[]>([]);
   const [movieTrendingData, setMovieTrendingData] = useState<Movie[]>([]);
   const [loadingPopular, setLoadingPopular] = useState(true);
@@ -16,9 +17,9 @@ export default function Discover() {
     const fetchPopular = async () => {
       try {
         const response = await axios.get<Movie[]>(
-          'http://localhost:8080/api/movies/popular',
+          `${baseURL}/api/movies/popular`,
         );
-        setMoviePopularData(response.data.map(apiToMovie));
+        setMoviePopularData(response.data);
       } catch (error) {
         const message = axios.isAxiosError(error)
           ? error.response?.data || error.message
@@ -33,9 +34,9 @@ export default function Discover() {
     const fetchTrending = async () => {
       try {
         const response = await axios.get<Movie[]>(
-          'http://localhost:8080/api/movies/trending',
+          `${baseURL}/api/movies/trending`,
         );
-        setMovieTrendingData(response.data.map(apiToMovie));
+        setMovieTrendingData(response.data);
       } catch (error) {
         const message = axios.isAxiosError(error)
           ? error.response?.data || error.message
@@ -57,7 +58,7 @@ export default function Discover() {
   return (
     <div
       id="screen-container"
-      className="display-flex-col items-center, justify-center, pb-[0px] h-screen bg-gray-700"
+      className="flex flex-col items-center min-h-screen bg-gray-700"
     >
       {movieTrendingData && (
         <Slider movieList={movieTrendingData} title="Trending Movies" />
@@ -71,8 +72,3 @@ export default function Discover() {
     </div>
   );
 }
-
-const apiToMovie = (movie: Movie): Movie => ({
-  ...movie,
-  posterPath: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
-});

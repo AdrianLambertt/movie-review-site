@@ -1,12 +1,3 @@
-a {
-  font-weight: 500;
-  font-size: 18px;
-  text-decoration: inherit;
-  padding: 0px 15px;
-}
-a:hover {
-  color: #a9a9a9;
-}
 .poster {
   max-width: 200px;
 }
