@@ -10,7 +10,24 @@ services:
   backend:
     build: ./backend
     expose:
-      - '3000'
+      - '8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/film_review
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_PROFILES_ACTIVE=prod
+      - TMDB_API_KEY=${TMDB_API_KEY}
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: film_review
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   proxy:
     build: ./proxy
@@ -19,3 +36,6 @@ services:
     depends_on:
       - frontend
       - backend
+
+volumes:
+  pgdata:
