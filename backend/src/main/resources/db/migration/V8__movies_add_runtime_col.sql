@@ -1,0 +1,1 @@
+alter table movies ADD runtime integer;
