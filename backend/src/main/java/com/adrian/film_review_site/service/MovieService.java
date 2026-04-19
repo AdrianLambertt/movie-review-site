@@ -31,7 +31,9 @@ public class MovieService {
         if (maybeMovie.isPresent()) {
             Movie movie = maybeMovie.get();
 
-            if (movie.getVersion() >= Movie.CURRENT_VERSION) {
+            boolean current = movie.getVersion() >= Movie.CURRENT_VERSION;
+            boolean withinCacheLimit = movie.getLastUpdated().isAfter(java.time.LocalDateTime.now().minusMonths(6));
+            if (current && withinCacheLimit) {
                 return movie;
             }
         }

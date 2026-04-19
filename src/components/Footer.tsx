@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <div className="footer">
+      <div className="flex justify-center mb-3">
+        <a href="https://www.themoviedb.org" target="_blank" rel="noreferrer">
+          <img src="/images/tmdb-logo.svg" alt="TMDB logo" className="h-[32px]" />
+        </a>
+      </div>
       <p className="footer-content">
-        This project was possible due to the TMDB API, giving me up-to date
-        ratings and movie data.
+        This website uses TMDB and the TMDB APIs but is not endorsed, certified,
+        or otherwise approved by TMDB. The TMDB logo does not imply endorsement.
       </p>
       <p className="footer-content"> Created by Adrian Lambert 2025</p>
       <div className="flex justify-center gap-2">
