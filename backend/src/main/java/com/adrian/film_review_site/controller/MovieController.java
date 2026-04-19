@@ -36,4 +36,7 @@ public class MovieController {
     public List<Movie> getTrendingMovies() {
         return trendingService.getTrending();
     }
+
+    @GetMapping("/{id}/videos")
+    public MovieService.TmdbVideosResponse getMovieVideos(@PathVariable Long id) { return movieService.getVideos(id); }
 }

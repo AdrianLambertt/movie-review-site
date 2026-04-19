@@ -72,6 +72,23 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
+    public TmdbVideosResponse getVideos(Long tmdbId) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/movie/{id}/videos")
+                        .queryParam("language", "en-US")
+                        .build(tmdbId))
+                .header("Accept", "*/*")
+                .header("Authorization", "Bearer %s".formatted(apiKey))
+                .retrieve()
+                .bodyToMono(TmdbVideosResponse.class)
+                .block();
+    }
+
+    public record TmdbVideosResponse(String id, List<TmdbVideo> results) {}
+    public record TmdbVideo(String iso_639_1, String iso_3166_1, String name, String key, String site, float size, String type,
+                            boolean official, String published_at, String id) {}
+
     public record TmdbMovieResponse(Long id, String title, String overview,
                              String release_date, String poster_path, Long vote_count, double vote_average, float popularity, int runtime, List<TmdbGenreResponse> genres) {}
 

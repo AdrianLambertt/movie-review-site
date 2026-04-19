@@ -20,7 +20,6 @@ const FAKE_RATINGS = [
 export default function Details() {
   const { id } = useParams<{ id: string }>();
   const baseURL = import.meta.env.VITE_API_BASE_URL;
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
   const [error, setError] = useState<string>();
   const [movie, setMovie] = useState<Movie>();
@@ -30,19 +29,10 @@ export default function Details() {
     try {
       const [movieRes, trailerRes] = await Promise.all([
         axios.get<Movie>(`${baseURL}/api/movies/${id}`),
-        axios.get<TMDBVideoResponse>(
-          `https://api.themoviedb.org/3/movie/${id}/videos`,
-          {
-            headers: {
-              accept: 'application/json',
-              Authorization: `Bearer ${apiKey}`,
-            },
-            params: { language: 'en-US' },
-          },
-        ),
+        axios.get<TMDBVideoResponse>(`${baseURL}/api/movies/${id}/videos`),
       ]);
-      setMovie(movieRes.data);
 
+      setMovie(movieRes.data);
       const trailers = getTrailersFromVideos(trailerRes.data.results);
 
       // Get the newest trailer from the list of trailers
