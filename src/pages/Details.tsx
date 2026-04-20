@@ -115,7 +115,7 @@ export default function Details() {
               >
                 <div
                   id="poster"
-                  className="hidden lg:block lg:w-[240px] flex-shrink-0"
+                  className="hidden lg:block lg:w-[280px] flex-shrink-0"
                 >
                   {movie && (
                     <img
