@@ -63,110 +63,114 @@ export default function Details() {
 
   return (
     <>
-      <div id="screen-container">
-        <div className="w-full h-full bg-gray-900">
-          <div className="max-w-[1280px] min-w-[1300px] m-auto">
-            <section id="movie" className="pb-10">
-              <div
-                id="header"
-                className="flex justify-between content-center pt-16"
-              >
+      <div id="screen-container" className="bg-gray-900 min-h-screen">
+        <div className="max-w-[1280px] mx-auto px-4 lg:px-12">
+          <section id="movie" className="pb-10">
+            <div
+              id="header"
+              className="flex flex-col lg:flex-row lg:justify-between lg:items-center pt-16 gap-4"
+            >
+              <div className="flex flex-col">
+                <h1 className="details-header text-white">
+                  {movie ? movie.title : null}
+                </h1>
+                <div className="flex gap-5 pt-2">
+                  <div className="text-gray-400">
+                    {movie ? format(movie.releaseDate, 'y') : null}
+                  </div>
+                  <div className="text-gray-400">
+                    {movie
+                      ? `${minutesToHours(movie.runtime)}h ${movie.runtime % 60}m`
+                      : null}
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-6 lg:gap-10">
                 <div className="flex flex-col">
-                  <h1 className="details-header text-white">
-                    {movie ? movie.title : null}
-                  </h1>
-                  <div className="flex gap-5 pt-2">
-                    <div className="text-gray-400">
-                      {movie ? format(movie.releaseDate, 'y') : null}
-                    </div>
-                    <div className="text-gray-400">
-                      {movie
-                        ? `${minutesToHours(movie.runtime)}h ${movie.runtime % 60}m`
-                        : null}
-                    </div>
+                  <div className="font-bold tracking-wide text-white text-sm lg:text-base">
+                    TMDB Rating
+                  </div>
+                  <div className="text-white text-center">{`${movie ? movie.voteAverage.toFixed(1) : '?'}/10`}</div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="font-bold tracking-wide text-white text-sm lg:text-base">
+                    Review Count
+                  </div>
+                  <div className="text-white text-center">
+                    {movie ? movie.voteCount : '0'}
                   </div>
                 </div>
-                <div className="flex justify-between content-center gap-10">
-                  <div className="flex flex-col">
-                    <div className="font-bold tracking-wide text-white">
-                      TMDB Rating
-                    </div>
-                    <div className="text-white text-center">{`${movie ? movie.voteAverage.toFixed(1) : '?'}/10`}</div>
+                <div className="flex flex-col">
+                  <div className="font-bold tracking-wide text-white text-sm lg:text-base">
+                    Your Rating
                   </div>
-                  <div className="flex flex-col">
-                    <div className="font-bold tracking-wide text-white">
-                      Review Count
-                    </div>
-                    <div className="text-white text-center">
-                      {movie ? movie.voteCount : '0'}
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="font-bold tracking-wide text-white">
-                      Your Rating
-                    </div>
-                    <div className="text-gray-500 text-center">Review Now</div>
-                  </div>
+                  <div className="text-gray-500 text-center">Review Now</div>
                 </div>
               </div>
-              <div id="body">
-                <div id="visuals" className="flex mb-5">
-                  <div id="poster" className="relative w-[500px]">
-                    {movie && (
-                      <img
-                        className="absolute inset-0 w-full h-full object-cover rounded-[10px] pr-2"
-                        src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
-                      />
-                    )}
-                  </div>
-                  <div id="trailer" className="relative w-4/5 aspect-video">
-                    {trailer && (
-                      <iframe
-                        className="absolute inset-0 w-full h-full rounded-[10px]"
-                        src={`https://www.youtube.com/embed/${trailer}`}
-                        allowFullScreen
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      />
-                    )}
-                  </div>
+            </div>
+            <div id="body" className="mt-6">
+              <div
+                id="visuals"
+                className="flex flex-col lg:flex-row mb-5 gap-2"
+              >
+                <div
+                  id="poster"
+                  className="hidden lg:block lg:w-[240px] flex-shrink-0"
+                >
+                  {movie && (
+                    <img
+                      className="w-full h-full object-cover rounded-[10px]"
+                      src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
+                    />
+                  )}
                 </div>
-                <div className="flex gap-10">
-                  <div className="w-4/5">
-                    <div id="genres" className="flex flex-wrap gap-2 mb-6">
-                      {movie?.genres.map((genre) => (
-                        <span
-                          key={genre.id}
-                          className="px-3 py-1 rounded-full bg-gray-700 text-white text-sm"
-                        >
-                          {genre.name}
-                        </span>
-                      ))}
-                    </div>
-                    <div id="description" className="text-white">
-                      {movie ? movie.overview : null}
-                    </div>
-                  </div>
-                  <div
-                    id="user-opts"
-                    className="flex flex-col justify-center items-center w-1/5 gap-3"
-                  >
-                    <button className="w-full px-4 py-2 rounded-full border border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transition-colors">
-                      Review
-                    </button>
-                    <button className="w-full px-4 py-2 rounded-full border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-colors">
-                      Add to watchlist
-                    </button>
-                    <button className="w-full px-4 py-2 rounded-full border border-green-500 text-green-400 hover:bg-green-500 hover:text-white transition-colors">
-                      Mark as watched
-                    </button>
-                  </div>
+                <div id="trailer" className="w-full aspect-video">
+                  {trailer && (
+                    <iframe
+                      className="w-full h-full rounded-[10px]"
+                      src={`https://www.youtube.com/embed/${trailer}`}
+                      allowFullScreen
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    />
+                  )}
                 </div>
               </div>
-            </section>
-          </div>
+              <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+                <div className="w-full lg:w-4/5">
+                  <div id="genres" className="flex flex-wrap gap-2 mb-6">
+                    {movie?.genres.map((genre) => (
+                      <span
+                        key={genre.id}
+                        className="px-3 py-1 rounded-full bg-gray-700 text-white text-sm"
+                      >
+                        {genre.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div id="description" className="text-white">
+                    {movie ? movie.overview : null}
+                  </div>
+                </div>
+                <div
+                  id="user-opts"
+                  className="flex flex-row lg:flex-col justify-center items-center w-full lg:w-1/5 gap-3"
+                >
+                  <button className="flex-1 lg:w-full px-4 py-2 rounded-full border border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transition-colors">
+                    Review
+                  </button>
+                  <button className="flex-1 lg:w-full px-4 py-2 rounded-full border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-colors">
+                    Add to watchlist
+                  </button>
+                  <button className="flex-1 lg:w-full px-4 py-2 rounded-full border border-green-500 text-green-400 hover:bg-green-500 hover:text-white transition-colors">
+                    Mark as watched
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-        <section id="user-reviews" className="bg-gray-900 px-10 py-10">
-          <div className="max-w-[1280px] min-w-[1300px] m-auto">
+        <section id="user-reviews" className="px-4 lg:px-12 py-10">
+          <div className="max-w-[1280px] mx-auto">
             <h2 className="details-header text-white mb-6">Reviews</h2>
             <div className="flex flex-col gap-2">
               {FAKE_RATINGS.map(({ rating, percentage }) => (

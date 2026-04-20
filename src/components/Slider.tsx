@@ -56,7 +56,7 @@ export default function Slider({ movieList, title }: SliderProps) {
           ref={rowRef}
           onScroll={updateScrollState}
           className="flex flex-row gap-1 overflow-x-scroll scroll-smooth px-12"
-          style={{ scrollbarWidth: 'none' }}
+          style={{ scrollbarWidth: 'none', overflowY: 'hidden' }}
         >
           {movieList.map((movie, index) => (
             <div
